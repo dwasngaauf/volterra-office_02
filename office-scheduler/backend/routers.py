@@ -80,6 +80,9 @@ def get_calendar(
 
     days = []
     target_user_id = view_user_id if view_user_id else current_user.id
+    # view_user_id = 0 => xem tất cả, không highlight ai
+    if view_user_id == 0:
+        target_user_id = None
     for day_num in range(1, last_day.day + 1):
         d = date(year, month, day_num)
         key = d.isoformat()
