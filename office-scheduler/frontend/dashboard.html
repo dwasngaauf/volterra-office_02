@@ -89,6 +89,7 @@
       <div style="display:flex;gap:8px;align-items:center">
         <select id="user-filter" class="user-filter-select" onchange="onUserFilterChange()">
           <option value="">📋 Lịch của tôi</option>
+          <option value="0">👥 Tất cả</option>
         </select>
         <div class="view-tabs">
           <div class="view-tab active" id="tab-week" onclick="setView('week')">Tuần</div>
@@ -175,12 +176,13 @@ if (user) {
 
 function isViewingOther() {
   const val = document.getElementById("user-filter")?.value;
-  return val && val !== "";
+  return val && val !== "" && val !== "0";
 }
 
 function onUserFilterChange() {
   const val = document.getElementById("user-filter").value;
   viewedUserId = val ? parseInt(val) : null;
+  calData = {};
   loadAndRender();
 }
 
@@ -244,8 +246,12 @@ async function loadAndRender() {
 
 function updateViewingIndicator() {
   const el = document.getElementById("topbar-viewing");
-  if (isViewingOther()) {
-    const sel = document.getElementById("user-filter");
+  const sel = document.getElementById("user-filter");
+  const val = sel?.value;
+  if (val === "0") {
+    el.textContent = "👥 Đang xem: Tất cả mọi người";
+    el.style.display = "block";
+  } else if (isViewingOther()) {
     const name = sel.options[sel.selectedIndex]?.text || "người khác";
     el.textContent = `👁 Đang xem: ${name}`;
     el.style.display = "block";
