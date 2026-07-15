@@ -5,6 +5,8 @@ from datetime import datetime
 import enum
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./office_scheduler.db")
 
 # Railway PostgreSQL URL dùng postgres:// nhưng SQLAlchemy cần postgresql://
